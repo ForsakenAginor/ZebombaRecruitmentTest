@@ -1611,6 +1611,7 @@ GameObject:
   - component: {fileID: 875985772}
   - component: {fileID: 875985774}
   - component: {fileID: 875985773}
+  - component: {fileID: 875985775}
   m_Layer: 0
   m_Name: Logic
   m_TagString: Untagged
@@ -1692,6 +1693,24 @@ MonoBehaviour:
   _launcher: {fileID: 875985770}
   _spawnPoint: {fileID: 2735456807823784074}
   _pool: {fileID: 875985773}
+  _gridCreator: {fileID: 875985775}
+--- !u!114 &875985775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 875985769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a41d6345c06f1cd4da674ffc51a8a9fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _width: 3
+  _height: 3
+  _cellSize: 1.03
+  _cellPrefab: {fileID: 0}
+  _gridPosition: {fileID: 0}
 --- !u!1 &980161380
 GameObject:
   m_ObjectHideFlags: 0
@@ -2059,7 +2078,7 @@ GameObject:
   - component: {fileID: 1437132106}
   - component: {fileID: 1437132105}
   m_Layer: 0
-  m_Name: Point
+  m_Name: Joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2735,7 +2754,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2735456807823784074}
   m_Layer: 0
-  m_Name: Circle (9)
+  m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
