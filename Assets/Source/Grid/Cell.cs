@@ -21,16 +21,15 @@ public class Cell : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out Ball _))
+        if (collision.TryGetComponent(out Ball ball) && _ball == ball)
         {
             _ball = null;
-            CellsContainChanged?.Invoke();
         }
     }
 
     public void RemoveBall()
     {
-        Ball.gameObject.SetActive(false);
+        Ball.Disable();
         _ball = null;
     }
 }

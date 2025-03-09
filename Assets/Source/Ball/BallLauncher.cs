@@ -1,18 +1,29 @@
 using System;
 using UnityEngine;
 
-public class BallLauncher : MonoBehaviour
+public class BallLauncher
 {
-    [SerializeField] private HingeJoint2D _joint;
+    private readonly HingeJoint2D _joint;
+    private readonly PlayerInput _playerInput;
 
     public event Action JointBroke;
 
-    private void Update()
+    public BallLauncher(PlayerInput input, HingeJoint2D joint)
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            _joint.connectedBody = null;
-            JointBroke?.Invoke();
-        }
+        _playerInput = input != null ? input : throw new ArgumentNullException(nameof(input));
+        _joint = joint != null ? joint : throw new ArgumentNullException(nameof(joint));
+
+        _playerInput.ClickInputReceived += OnInputReceived;
+    }
+
+    ~BallLauncher()
+    {
+        _playerInput.ClickInputReceived -= OnInputReceived;
+    }
+
+    private void OnInputReceived()
+    {
+        _joint.connectedBody = null;
+        JointBroke?.Invoke();
     }
 }

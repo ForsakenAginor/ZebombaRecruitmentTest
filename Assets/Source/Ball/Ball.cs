@@ -1,22 +1,25 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
+[RequireComponent (typeof(BallEffects))]
 public class Ball : MonoBehaviour
 {
+    private BallEffects _effect;
     private BallColor _color;
-
-    private Action<GameObject> _onDisableCallback;
 
     public BallColor Color => _color;
 
-    private void OnDisable()
+    private void Awake()
     {
-        _onDisableCallback?.Invoke(gameObject);
+        _effect = GetComponent<BallEffects>();
     }
 
-    public void Init(BallColor color, Action<GameObject> onDisableCallback)
+    public void Init(BallColor color)
     {
         _color = color;
-        _onDisableCallback = onDisableCallback;
+    }
+
+    public void Disable()
+    {
+        _effect.PlayEffect();
     }
 }
