@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridManager
+public class GridMatchFinder
 {
     private readonly Cell[,] _grid;
 
-    public GridManager(Cell[,] grid)
+    public GridMatchFinder(Cell[,] grid)
     {
         _grid = grid != null ? grid : throw new ArgumentNullException(nameof(grid));
 
@@ -18,20 +18,46 @@ public class GridManager
                 _grid[x, y].CellsContainChanged += OnGridContainChanged;
     }
 
-    ~GridManager()
+    ~GridMatchFinder()
     {
         for (int x = 0; x < _grid.GetLength(0); x++)
             for (int y = 0; y < _grid.GetLength(1); y++)
                 _grid[x, y].CellsContainChanged -= OnGridContainChanged;
     }
 
+    public event Action GridBecameFull;
+    public event Action<BallColor> BallRemoved;
+
     private void OnGridContainChanged()
     {
         var matches = FindMatches();
 
-        foreach (var match in matches)
-            _grid[match.x, match.y].RemoveBall();
-        
+        if (matches.Count != 0)
+        {
+            foreach (var match in matches)
+            {
+                BallRemoved?.Invoke(_grid[match.x, match.y].Ball.Color);
+                _grid[match.x, match.y].RemoveBall();
+            }
+        }
+        else
+        {
+            if (IsGridFull())
+                GridBecameFull?.Invoke();
+        }
+    }
+
+    private bool IsGridFull()
+    {
+        int rows = _grid.GetLength(0);
+        int columns = _grid.GetLength(1);
+
+        for (int x = 0; x < columns; x++)        
+            for (int y = 0; y < rows; y++)            
+                if (_grid[x, y].Ball == null)                
+                    return false;      
+
+        return true;
     }
 
     private void TryAddCell(List<Vector2Int> list, Vector2Int cell)
